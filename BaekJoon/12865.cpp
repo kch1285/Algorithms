@@ -1,17 +1,25 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
-vector <pair<int, int> > pv[101];
-int dp[100001];
-
 int main(){
+    cin.tie(0);
+    cout.tie(0);
+    ios_base::sync_with_stdio(0);
+
     int n, k, w, v;
     cin >> n >> k;
+    vector<int> dp(k + 1, 0);
+
     for(int i=0;i<n;i++){
         cin >> w >> v;
-        pv[i].push_back(make_pair(w, v));
-        dp[pv[i].first] = pv[i].second;
+        for(int j=k;j>=w;j--){
+            dp[j] = max(dp[j], dp[j-w] + v);
+        }
     }
+
+    cout << dp[k] << '\n';
+    return 0;
 }
