@@ -1,31 +1,32 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
-int arr[33000][33000];
-int cnt = 0, r, c;
-int visit[33000][33000];
-void Z(int x, int y, int len){
-    if(x==r && y==c)    return;
-    for(int i=x;i<x+len;i++){
-        for(int j=y;j<y+len;j++){
-            
-                Z(x, y, len/2);
-                Z(len/2+x, y, len/2);
-                Z(x, len/2+y, len/2);
-                Z(len/2+x, len/2+y, len/2);
-            
-        }
+int n, r, c,result;
+
+void Z(int x, int y, int length){
+    if(x == r && y == c){
+        cout << result << '\n';
+        return;
     }
-    cnt++;
+    if(r < x + length && r >= x && c < y + length && c >= y){
+        Z(x, y, length/2);
+        Z(x, y + length/2, length/2);
+        Z(x + length/2, y, length/2);
+        Z(x + length/2, y + length/2, length/2);
+    }
+    else    result += length * length;
 }
 
 int main(){
-    cin.tie(NULL);
-    ios::sync_with_stdio(false);
-    int n;
+    cin.tie(0);
+    cout.tie(0);
+    ios_base::sync_with_stdio(0);
+    int len = 1;
     cin >> n >> r >> c;
-    Z(0, 0, n);
-    cout << cnt << '\n';
+
+    for(int i=0;i<n;i++)    len *= 2;
+    Z(0, 0, len);
     return 0;
 }
